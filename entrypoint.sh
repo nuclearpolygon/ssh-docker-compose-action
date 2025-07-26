@@ -34,12 +34,13 @@ if [ -n "$REGISTRY_LOGIN" ] && [ -n "$REGISTRY_SECRET" ]; then
   echo $REGISTRY_SECRET | docker login $REGISTRY -u $REGISTRY_LOGIN --password-stdin
 fi
 
-
-log "Launching docker compose"
+log "Down compose"
 docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" down
+log "Remove containers"
 docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" rm -s -f
 docker system prune -a -f
 if $PULL; then
   docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" pull
 fi
+log "Launching docker compose"
 docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" up -d --build --force-recreate
