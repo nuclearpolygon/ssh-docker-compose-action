@@ -27,6 +27,15 @@ inputs:
   pull:
     description: Docker Compose pull images.
     default: 'false'
+  registry_login:
+    description: Docker registry credentials
+    default: ''
+  registry_secret:
+    description: Docker registry credentials
+    default: ''
+  registry:
+    description: Docker registry credentials
+    default: 'ghcr.io'
 runs:
   using: docker
   image: Dockerfile
@@ -38,3 +47,6 @@ runs:
     DOCKER_COMPOSE_FILENAME: ${{ inputs.docker_compose_filename }}
     DOCKER_COMPOSE_PREFIX: ${{ inputs.docker_compose_prefix }}
     PULL: ${{ inputs.pull }}
+    REGISTRY_LOGIN: ${{ inputs.registry_login }}
+    REGISTRY_SECRET: ${{ inputs.registry_secret }}
+    REGISTRY: ${{ inputs.registry }}

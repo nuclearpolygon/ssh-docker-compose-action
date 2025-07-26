@@ -28,6 +28,13 @@ log "Creating docker context"
 docker context create --docker host=ssh://$SSH_USER@$SSH_HOST ssh-docker
 docker context use ssh-docker
 
+if [ -n "$REGISTRY_LOGIN" ] && [ -n "$REGISTRY_SECRET" ]; then
+  log "Login to docker registry"
+  [ -z "$REGISTRY" ] $REGISTRY=ghcr.io
+  echo $REGISTRY_SECRET | docker login $REGISTRY -u $REGISTRY_LOGIN --password-stdin
+fi
+
+
 log "Launching docker compose"
 docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" down
 docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" rm -s -f
