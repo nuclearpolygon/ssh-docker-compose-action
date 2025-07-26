@@ -30,7 +30,7 @@ docker context use ssh-docker
 
 if [ -n "$REGISTRY_LOGIN" ] && [ -n "$REGISTRY_SECRET" ]; then
   log "Login to docker registry"
-  [ -z "$REGISTRY" ] $REGISTRY=ghcr.io
+  [ -z "$REGISTRY" ] && $REGISTRY=ghcr.io
   echo $REGISTRY_SECRET | docker login $REGISTRY -u $REGISTRY_LOGIN --password-stdin
 fi
 
