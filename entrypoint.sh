@@ -15,8 +15,10 @@ trap cleanup EXIT
 
 log "DOCKER_COMPOSE_FILENAME: $DOCKER_COMPOSE_FILENAME"
 log "DOCKER_COMPOSE_PREFIX: $DOCKER_COMPOSE_PREFIX"
-log "HOME: $HOME"
+log "PWD: $PWD"
 ls -l .
+cat $DOCKER_COMPOSE_FILENAME
+
 log "Launching ssh agent."
 
 eval `ssh-agent -s`
