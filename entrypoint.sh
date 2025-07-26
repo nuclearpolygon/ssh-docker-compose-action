@@ -17,7 +17,6 @@ log "DOCKER_COMPOSE_FILENAME: $DOCKER_COMPOSE_FILENAME"
 log "DOCKER_COMPOSE_PREFIX: $DOCKER_COMPOSE_PREFIX"
 log "PWD: $PWD"
 ls -l .
-ls -l ./nginx*
 cat $DOCKER_COMPOSE_FILENAME
 
 log "Launching ssh agent."
