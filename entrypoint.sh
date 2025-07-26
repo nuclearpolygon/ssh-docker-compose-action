@@ -29,7 +29,9 @@ docker context create --docker host=ssh://$SSH_USER@$SSH_HOST ssh-docker
 docker context use ssh-docker
 
 log "Launching docker compose"
-docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" down --rmi all
+docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" down
+docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" rm -s -f
+docker system prune -a -f
 if $PULL; then
   docker compose -f "$DOCKER_COMPOSE_FILENAME" -p "$DOCKER_COMPOSE_PREFIX" pull
 fi
