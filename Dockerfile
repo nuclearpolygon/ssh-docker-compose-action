@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM docker:dind
 LABEL maintainer="humberto.cunha.crispim@gmail.com"
 RUN apk add --no-cache openssh bash
 ADD entrypoint.sh /entrypoint.sh
