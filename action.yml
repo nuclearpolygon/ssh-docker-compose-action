@@ -23,10 +23,8 @@ inputs:
     required: true
   registry_login:
     description: Docker registry credentials
-    default: ''
   registry_secret:
     description: Docker registry credentials
-    default: ''
   registry:
     description: Docker registry credentials
     default: 'ghcr.io'

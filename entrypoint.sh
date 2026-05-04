@@ -26,13 +26,10 @@ cleanup() {
 trap cleanup EXIT
 
 # Validate required variables
-[ -z "$SSH_PRIVATE_KEY" ] && error "SSH_PRIVATE_KEY is not set"
-[ -z "$SSH_HOST" ] && error "SSH_HOST is not set"
-[ -z "$SSH_USER" ] && error "SSH_USER is not set"
-[ -z "$SCRIPT" ] && error "SCRIPT is not set"
-
-log "PWD: $PWD"
-ls -l .
+[ -z "$SSH_PRIVATE_KEY" ] && error "SSH_PRIVATE_KEY is not set" && exit 1
+[ -z "$SSH_HOST" ] && error "SSH_HOST is not set" && exit 1
+[ -z "$SSH_USER" ] && error "SSH_USER is not set" && exit 1
+[ -z "$SCRIPT" ] && error "SCRIPT is not set" && exit 1
 
 # Setup SSH
 log "Setting up SSH agent..."
