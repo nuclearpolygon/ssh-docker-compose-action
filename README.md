@@ -28,7 +28,7 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 
-    - uses: nuclearpolygon/ssh-docker-compose-action
+    - uses: nuclearpolygon/ssh-docker-compose-action@v1
       name: Remote Deployment with Docker-Compose
       with:
         ssh_host: ${{ vars.SSH_HOST }}
