@@ -1,5 +1,5 @@
 name: Docker Compose Deployment (SSH)
-author: 'humbertocrispim'
+author: 'nuclearpolygon'
 branding:
   icon: server
   color: purple
@@ -26,10 +26,16 @@ inputs:
     default: docker-compose.yml
   pull:
     description: Docker Compose pull images.
-    default: 'false'   
-  use_stack:
-    description: Use docker stack instead of docker compose ("true" or "false").
     default: 'false'
+  registry_login:
+    description: Docker registry credentials
+    default: ''
+  registry_secret:
+    description: Docker registry credentials
+    default: ''
+  registry:
+    description: Docker registry credentials
+    default: 'ghcr.io'
 runs:
   using: docker
   image: Dockerfile
@@ -40,5 +46,7 @@ runs:
     SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
     DOCKER_COMPOSE_FILENAME: ${{ inputs.docker_compose_filename }}
     DOCKER_COMPOSE_PREFIX: ${{ inputs.docker_compose_prefix }}
-    USE_DOCKER_STACK: ${{ inputs.use_stack }}
     PULL: ${{ inputs.pull }}
+    REGISTRY_LOGIN: ${{ inputs.registry_login }}
+    REGISTRY_SECRET: ${{ inputs.registry_secret }}
+    REGISTRY: ${{ inputs.registry }}
