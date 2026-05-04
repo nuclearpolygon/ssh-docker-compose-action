@@ -40,7 +40,17 @@ ssh-add <(echo "$SSH_PRIVATE_KEY")
 log "Testing SSH connection to $SSH_USER@$SSH_HOST:$SSH_PORT..."
 mkdir ~/.ssh
 ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-ssh -p "$SSH_PORT" -o ConnectTimeout=5 "$SSH_USER@$SSH_HOST" "echo '✅ SSH connection successful'" || error "SSH connection failed"
+
+if [ $? -ne 0 ]; then
+  log "ssh-keyscan with port failed, trying without port..."
+  ssh-keyscan "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+fi
+
+if ! grep -q "$SSH_HOST" ~/.ssh/known_hosts; then
+  error "Failed to add host key for $SSH_HOST"
+fi
+
+ssh -p "$SSH_PORT" -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 "$SSH_USER@$SSH_HOST" "echo '✅ SSH connection successful'" || error "SSH connection failed"
 
 # Create Docker context
 log "Creating remote Docker context..."
