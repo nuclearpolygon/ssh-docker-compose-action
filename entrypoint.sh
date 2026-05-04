@@ -38,6 +38,7 @@ ssh-add <(echo "$SSH_PRIVATE_KEY")
 
 # Test SSH connection
 log "Testing SSH connection to $SSH_USER@$SSH_HOST:$SSH_PORT..."
+mkdir ~/.ssh
 ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 ssh -p "$SSH_PORT" -o ConnectTimeout=5 "$SSH_USER@$SSH_HOST" "echo '✅ SSH connection successful'" || error "SSH connection failed"
 
