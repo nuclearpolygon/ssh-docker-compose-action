@@ -4,11 +4,6 @@ on:
   push:
     tags:
       - 'v*'           # Trigger on version tags (v1.0.0, v1.0, v1)
-    paths:
-      - 'Dockerfile'
-      - 'entrypoint.sh'
-      - 'action.yml'
-  workflow_dispatch:    # Manual trigger for testing
 
 env:
   REGISTRY: ghcr.io
