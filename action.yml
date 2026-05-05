@@ -30,7 +30,7 @@ inputs:
     default: 'ghcr.io'
 runs:
   using: docker
-  image: Dockerfile
+  image: docker://ghcr.io/nuclearpolygon/ssh-docker-compose-action:v1
   env:
     SSH_USER: ${{ inputs.ssh_user }}
     SSH_HOST: ${{ inputs.ssh_host }}

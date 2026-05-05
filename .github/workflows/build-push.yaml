@@ -1,0 +1,58 @@
+name: Build and Publish Action
+
+on:
+  push:
+    tags:
+      - 'v*'           # Trigger on version tags (v1.0.0, v1.0, v1)
+    paths:
+      - 'Dockerfile'
+      - 'entrypoint.sh'
+      - 'action.yml'
+  workflow_dispatch:    # Manual trigger for testing
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            # Tag with version (v1.0.0)
+            type=semver,pattern={{version}}
+            # Tag with major version (v1)
+            type=semver,pattern={{major}}
+            # Tag with major.minor (v1.0)
+            type=semver,pattern={{major}}.{{minor}}
+            # Latest tag for the latest release
+            type=ref,event=tag
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
